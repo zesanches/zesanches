@@ -3,7 +3,7 @@
 
 
 - 🔭 I’m currently working on front-end
-- 🌱 I’m currently learning about ReactJS and TypeScript
+- 🌱 I’m currently learning about ReactJS and JavaScript
 #### Email for contact: josemanoelmalassise@gmail.com
 
 <div>
