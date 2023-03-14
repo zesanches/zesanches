@@ -1,9 +1,8 @@
 ### Hi there! I'm José Sanches Malassise
 
+- Actually i'm working in Front-end stack
+- Loking to specialize in the Front-end stack
 
-
-- 🔭 I’m currently working on front-end
-- 🌱 I’m currently learning about ReactJS and JavaScript
 #### Email for contact: josemanoelmalassise@gmail.com
 
 <div>
