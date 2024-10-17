@@ -11,6 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Update README with recent GitHub activity
-        uses: Readme-Workflows/recent-activity@v1
+        uses: Readme-Workflows/recent-activity@main
         with:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
