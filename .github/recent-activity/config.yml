@@ -1,0 +1,34 @@
+recent-activity:
+  # Número máximo de atividades que serão exibidas no README
+  max-activity: 5
+  
+  # Tipos de eventos para incluir (você pode ajustar com base no que deseja monitorar)
+  include-events:
+    - PushEvent
+    - PullRequestEvent
+    - IssuesEvent
+    - ForkEvent
+    - CreateEvent
+
+  # Mostrar apenas eventos que ocorrem em repositórios onde você é o proprietário
+  show-only-my-repos: false
+
+  # Mostrar atividades de repositórios em que você é colaborador
+  show-collaborator-activity: true
+
+  # Exibir atividades de repositórios privados (certifique-se de que o token tem permissões adequadas)
+  show-private-repos: false
+
+  # Personalizar o cabeçalho da seção de atividades recentes no seu README
+  header: "## Minhas Atividades Recentes no GitHub 🚀"
+
+  # Personalizar a formatação das atividades
+  format:
+    push: ":rocket: Pushed to **{repo}** at {branch}"
+    pull_request: ":handshake: Opened a pull request in **{repo}**"
+    issue: ":speech_balloon: Commented on an issue in **{repo}**"
+    fork: ":fork_and_knife: Forked **{repo}**"
+    create: ":tada: Created a new repository **{repo}**"
+
+  # Mensagem quando não houver atividades recentes para exibir
+  no-activity-message: "Nenhuma atividade recente disponível."
