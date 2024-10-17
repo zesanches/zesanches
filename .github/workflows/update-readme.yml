@@ -9,8 +9,10 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Update README with recent GitHub activity
         uses: Readme-Workflows/recent-activity@main
         with:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GH_USERNAME: zesanches
