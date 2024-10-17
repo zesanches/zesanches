@@ -13,8 +13,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Update README with recent GitHub activity
         uses: Readme-Workflows/recent-activity@main
+      - GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         with:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
           GH_USERNAME: zesanches
           CONFIG_FILE: .github/recent-activity/config.yml
 
