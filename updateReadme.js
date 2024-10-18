@@ -1,51 +1,62 @@
 const axios = require("axios");
 const fs = require("fs");
+const path = require("path");
 
-// Substitua com seu token de acesso privado do GitLab e IDs dos projetos
-const gitlabToken = "jvyyeGwz8ao9-Eq9w4yR";
-const projectIds = [
-  "400",
-  "175",
-  "160",
-  "148",
-  "132",
-  "115",
-  "116",
-  "113",
-  "91",
-  "90",
-  "58",
-  "27",
-  "22",
-  "20",
-  "10",
-];
+// Configurações
+const GITHUB_TOKEN = "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"; // Insira seu Personal Access Token aqui
+const GITHUB_USERNAME = "zesanches"; // Insira seu nome de usuário do GitHub
+const ORGANIZATION_NAME = "Tesserato-Software"; // Insira o nome da sua organização
+const README_PATH = path.join(__dirname, "README.md"); // Caminho para o README
 
-const fetchCommits = async (projectId) => {
-  const response = await axios.get(
-    `https://gitlab.com/api/v4/projects/${projectId}/repository/commits`,
-    {
-      headers: {
-        "PRIVATE-TOKEN": gitlabToken,
-      },
-    }
-  );
-  return response.data;
-};
+// Função para buscar contribuições
+async function fetchContributions() {
+  try {
+    const response = await axios.get(
+      `https://api.github.com/users/${GITHUB_USERNAME}/events`,
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+        },
+      }
+    );
 
-const updateReadme = async () => {
-  let content = "# GitLab Activities\n\n";
+    // Filtra as contribuições relevantes
+    const contributions = response.data
+      .filter((event) => event.type === "PushEvent")
+      .map((event) => ({
+        repo: event.repo.name,
+        message: event.payload.commits
+          .map((commit) => commit.message)
+          .join(", "),
+        date: new Date(event.created_at).toLocaleDateString(),
+      }));
 
-  for (const projectId of projectIds) {
-    const commits = await fetchCommits(projectId);
-    content += `## Project ${projectId}\n`;
-    commits.slice(0, 5).forEach((commit) => {
-      content += `- ${commit.title} (${commit.created_at})\n`;
-    });
-    content += "\n";
+    return contributions;
+  } catch (error) {
+    console.error("Erro ao buscar contribuições:", error);
+  }
+}
+
+// Função para atualizar o README
+async function updateReadme() {
+  const contributions = await fetchContributions();
+
+  if (contributions.length === 0) {
+    console.log("Nenhuma contribuição encontrada.");
+    return;
   }
 
-  fs.writeFileSync("README.md", content, "utf8");
-};
+  const contributionText = contributions
+    .map((contribution) => {
+      return `- **${contribution.repo}**: ${contribution.message} (${contribution.date})`;
+    })
+    .join("\n");
 
+  const readmeContent = `# Minhas Contribuições no GitHub\n\n${contributionText}\n`;
+
+  fs.writeFileSync(README_PATH, readmeContent, "utf8");
+  console.log("README.md atualizado com sucesso!");
+}
+
+// Executa a atualização do README
 updateReadme();

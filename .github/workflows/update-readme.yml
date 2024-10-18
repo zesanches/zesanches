@@ -1,0 +1,68 @@
+name: Update README with Contributions
+
+on:
+  schedule:
+    - cron: "0 2 * * *" # Executa todos os dias às 2 da manhã
+  workflow_dispatch: # Permite que você execute o workflow manualmente
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16" # Use a versão do Node.js desejada
+
+      - name: Install dependencies
+        run: npm install axios
+
+      - name: Create updateReadme.js
+        run: |
+          echo "const axios = require('axios');" > updateReadme.js
+          echo "const fs = require('fs');" >> updateReadme.js
+          echo "const path = require('path');" >> updateReadme.js
+          echo "" >> updateReadme.js
+          echo "const GITHUB_TOKEN = process.env.GITHUB_TOKEN;" >> updateReadme.js
+          echo "const GITHUB_USERNAME = 'zesanches';" >> updateReadme.js  # Seu usuário do GitHub
+          echo "const README_PATH = path.join(__dirname, 'README.md');" >> updateReadme.js
+          echo "" >> updateReadme.js
+          echo "async function fetchContributions() {" >> updateReadme.js
+          echo "  try {" >> updateReadme.js
+          echo "    const response = await axios.get('https://api.github.com/users/' + GITHUB_USERNAME + '/events', {" >> updateReadme.js
+          echo "      headers: {" >> updateReadme.js
+          echo "        Authorization: \`token \${GITHUB_TOKEN}\`," >> updateReadme.js
+          echo "      }," >> updateReadme.js
+          echo "    });" >> updateReadme.js
+          echo "" >> updateReadme.js
+          echo "    const contributions = response.data" >> updateReadme.js
+          echo "      .filter(event => event.type === 'PushEvent')" >> updateReadme.js
+          echo "      .map(event => ({ repo: event.repo.name, message: event.payload.commits.map(commit => commit.message).join(', '), date: new Date(event.created_at).toLocaleDateString() }));" >> updateReadme.js
+          echo "" >> updateReadme.js
+          echo "    return contributions;" >> updateReadme.js
+          echo "  } catch (error) {" >> updateReadme.js
+          echo "    console.error('Erro ao buscar contribuições:', error);" >> updateReadme.js
+          echo "  }" >> updateReadme.js
+          echo "}" >> updateReadme.js
+          echo "" >> updateReadme.js
+          echo "async function updateReadme() {" >> updateReadme.js
+          echo "  const contributions = await fetchContributions();" >> updateReadme.js
+          echo "  if (contributions.length === 0) {" >> updateReadme.js
+          echo "    console.log('Nenhuma contribuição encontrada.');" >> updateReadme.js
+          echo "    return;" >> updateReadme.js
+          echo "  }" >> updateReadme.js
+          echo "  const contributionText = contributions.map(contribution => \`- **\${contribution.repo}**: \${contribution.message} (\${contribution.date})\`).join('\n');" >> updateReadme.js
+          echo "  const readmeContent = \`# Minhas Contribuições no GitHub\n\n\${contributionText}\n\`;" >> updateReadme.js
+          echo "  fs.writeFileSync(README_PATH, readmeContent, 'utf8');" >> updateReadme.js
+          echo "  console.log('README.md atualizado com sucesso!');" >> updateReadme.js
+          echo "}" >> updateReadme.js
+          echo "" >> updateReadme.js
+          echo "updateReadme();" >> updateReadme.js
+
+      - name: Run update script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node updateReadme.js
