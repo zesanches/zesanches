@@ -38,13 +38,6 @@
 
 ![](./profile-3d-contrib/profile-night-view.svg)
 
----
-
-### 🌐 Projetos em destaque
-- **Projeto 1**: Descrição breve do projeto, as tecnologias utilizadas e o link para o repositório.
-- **Projeto 2**: Outro projeto relevante para mostrar suas habilidades.
-
----
 
 ### 🌱 Aprendizado Contínuo
 - 📚 Atualmente estudando **[Javascript, Typescript, NextJs, ReactJs]** para expandir meus conhecimentos.
