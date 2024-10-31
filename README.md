@@ -12,7 +12,7 @@
 
 ### 🛠️ Principais Tecnologias
 
-  <img src="https://skillicons.dev/icons?i=js,ts,bootstrap,react,redux,vite,nextjs,vercel,git,styledcomponents,tailwind,jenkins,py&perline=15&theme=dark" alt="icons" />
+  <img src="https://skillicons.dev/icons?i=js,ts,react,redux,vite,nextjs,vercel,git,styledcomponents,tailwind,bootstrap,jenkins,py&perline=15&theme=dark" alt="icons" />
 
 ---
 
