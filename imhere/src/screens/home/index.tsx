@@ -6,34 +6,48 @@ import { useState } from "react";
 
 export default function Home() {
   const [participants, setParticipants] = useState<string[]>([]);
+  const [participantName, setParticipantName] = useState<string>("");
 
   function handleParticipantAdd() {
-    setParticipants((prevState) => [
-      ...prevState,
-      `Participante ${prevState.length + 1}`,
-    ]);
+    if (participants.includes(participantName)) {
+      return Alert.alert(
+        "Participants already exists",
+        "Participants already exists in the list, please add another one"
+      );
+    }
+
+    setParticipants((prevState) => [...prevState, participantName]);
+    setParticipantName("");
   }
 
   function handleDeleteParticipant(name: string) {
     Alert.alert(
-      "Remover participante",
-      `Deseja remover o participante ${name}?`,
+      "Remove Participant",
+      `Do you like to remove the participant ${name}?`,
       [
-        { text: "Não", style: "cancel" },
-        { text: "Sim", onPress: () => console.log(name) },
+        { text: "No", style: "cancel" },
+        {
+          text: "Yes",
+          onPress: () =>
+            setParticipants((prevState) =>
+              prevState.filter((participant) => participant !== name)
+            ),
+        },
       ]
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.eventName}>Nome do Evento</Text>
-      <Text style={styles.eventDate}>Quinta-feira, 13 de Fev. de 2025</Text>
+      <Text style={styles.eventName}>Event Name</Text>
+      <Text style={styles.eventDate}>Wednesday, February 19h of 2025</Text>
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          placeholder="Nome do Participante"
+          placeholder="Participant Name"
           placeholderTextColor="#6B6B6B"
+          onChangeText={setParticipantName}
+          value={participantName}
         />
         <Button onPress={handleParticipantAdd} text="+" type="add" />
       </View>
@@ -51,8 +65,7 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => (
           <Text style={styles.listEmptyText}>
-            Ninguém chegou ao evento ainda? Adicione participantes a sua lista
-            de presença
+            Nobody is in the event yet? Add some participants!
           </Text>
         )}
       />
