@@ -11,8 +11,8 @@ export default function Home() {
   function handleParticipantAdd() {
     if (participants.includes(participantName)) {
       return Alert.alert(
-        "Participants already exists",
-        "Participants already exists in the list, please add another one"
+        "Participante já adicionado",
+        "Este participante já foi adicionado a lista de presença"
       );
     }
 
@@ -22,12 +22,12 @@ export default function Home() {
 
   function handleDeleteParticipant(name: string) {
     Alert.alert(
-      "Remove Participant",
-      `Do you like to remove the participant ${name}?`,
+      "Remover participante",
+      `Deseja remover o participante ${name}?`,
       [
-        { text: "No", style: "cancel" },
+        { text: "Não", style: "cancel" },
         {
-          text: "Yes",
+          text: "Sim",
           onPress: () =>
             setParticipants((prevState) =>
               prevState.filter((participant) => participant !== name)
@@ -39,12 +39,12 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.eventName}>Event Name</Text>
-      <Text style={styles.eventDate}>Wednesday, February 19h of 2025</Text>
+      <Text style={styles.eventName}>Nome do Evento</Text>
+      <Text style={styles.eventDate}>Quinta-feira, 13 de Fev. de 2025</Text>
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          placeholder="Participant Name"
+          placeholder="Nome do Participante"
           placeholderTextColor="#6B6B6B"
           onChangeText={setParticipantName}
           value={participantName}
@@ -65,7 +65,8 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => (
           <Text style={styles.listEmptyText}>
-            Nobody is in the event yet? Add some participants!
+            Ninguém chegou ao evento ainda? Adicione participantes a sua lista
+            de presença
           </Text>
         )}
       />
